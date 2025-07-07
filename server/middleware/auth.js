@@ -32,6 +32,8 @@ const auth = async (req, res, next) => {
     // Get token from header
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
+      console.log('Auth header:', req.headers.authorization);
+      console.log('Token received:', token);
     }
 
     if (!token) {

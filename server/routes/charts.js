@@ -317,7 +317,8 @@ router.post('/:id/download', auth, async (req, res) => {
 // @access  Private
 router.get('/types/summary', auth, async (req, res) => {
   try {
-    const summary = await Chart.aggregate([
+    // Get chart type summary
+    const chartsByType = await Chart.aggregate([
       { $match: { user: req.user.id } },
       { 
         $group: {
@@ -328,10 +329,31 @@ router.get('/types/summary', auth, async (req, res) => {
       },
       { $sort: { count: -1 } }
     ]);
-
+    
+    // Get total uploads for the user
+    const user = await User.findById(req.user.id).select('uploadCount chartCount');
+    
+    // Calculate total charts and downloads
+    const totalCharts = chartsByType.reduce((acc, item) => acc + item.count, 0);
+    const totalDownloads = chartsByType.reduce((acc, item) => acc + item.totalDownloads, 0);
+    
+    // Calculate total data points (estimate)
+    const dataPointsEstimate = totalCharts * 100; // Rough estimate
+    
+    // Format the response to match the client expectations
+    const formattedChartsByType = chartsByType.map(item => ({
+      type: item._id,
+      count: item.count,
+      totalDownloads: item.totalDownloads
+    }));
+    
     res.json({
       success: true,
-      summary
+      totalUploads: user?.uploadCount || 0,
+      totalCharts: totalCharts,
+      totalDataPoints: dataPointsEstimate.toString(),
+      totalDownloads: totalDownloads,
+      chartsByType: formattedChartsByType
     });
   } catch (error) {
     console.error('Get chart summary error:', error);

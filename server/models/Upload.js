@@ -1,45 +1,32 @@
 const mongoose = require('mongoose');
 
-const uploadSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
+const UploadSchema = new mongoose.Schema({
   fileName: {
     type: String,
-    required: [true, 'File name is required']
+    required: true
   },
   originalName: {
     type: String,
-    required: [true, 'Original file name is required']
-  },
-  filePath: {
-    type: String,
-    required: [true, 'File path is required']
+    required: true
   },
   fileSize: {
     type: Number,
-    required: [true, 'File size is required']
+    required: true
   },
-  mimeType: {
-    type: String,
-    required: [true, 'MIME type is required']
-  },
-  headers: [{
+  filePath: {
     type: String
-  }],
+  },
+  headers: {
+    type: [String],
+    required: true
+  },
   rowCount: {
     type: Number,
-    default: 0
+    required: true
   },
   columnCount: {
     type: Number,
-    default: 0
-  },
-  data: {
-    type: mongoose.Schema.Types.Mixed,
-    default: null
+    required: true
   },
   status: {
     type: String,
@@ -47,14 +34,31 @@ const uploadSchema = new mongoose.Schema({
     default: 'processing'
   },
   errorMessage: {
-    type: String,
-    default: null
+    type: String
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  uploadedAt: {
+    type: Date,
+    default: Date.now
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 });
 
-// Index for faster queries
-uploadSchema.index({ user: 1, createdAt: -1 });
+// Middleware to update user's upload count
+UploadSchema.post('save', async function() {
+  try {
+    const User = mongoose.model('User');
+    await User.findByIdAndUpdate(this.user, { $inc: { uploadCount: 1 } });
+  } catch (error) {
+    console.error('Error updating user upload count:', error);
+  }
+});
 
-module.exports = mongoose.model('Upload', uploadSchema); 
+module.exports = mongoose.model('Upload', UploadSchema); 

@@ -1,6 +1,55 @@
 const mongoose = require('mongoose');
 
-const chartSchema = new mongoose.Schema({
+const ChartSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: [100, 'Title cannot be more than 100 characters']
+  },
+  description: {
+    type: String,
+    maxlength: [500, 'Description cannot be more than 500 characters']
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['bar', 'line', 'pie', 'scatter', 'bar3d', 'line3d', 'scatter3d']
+  },
+  xAxis: {
+    label: {
+      type: String,
+      required: true
+    },
+    data: {
+      type: Array,
+      required: true
+    }
+  },
+  yAxis: {
+    label: {
+      type: String,
+      required: true
+    },
+    data: {
+      type: Array,
+      required: true
+    }
+  },
+  configuration: {
+    colors: [String],
+    theme: String,
+    options: mongoose.Schema.Types.Mixed
+  },
+  isPublic: {
+    type: Boolean,
+    default: false
+  },
+  tags: [String],
+  downloadCount: {
+    type: Number,
+    default: 0
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -11,67 +60,25 @@ const chartSchema = new mongoose.Schema({
     ref: 'Upload',
     required: true
   },
-  title: {
-    type: String,
-    required: [true, 'Chart title is required'],
-    trim: true
-  },
-  type: {
-    type: String,
-    required: [true, 'Chart type is required'],
-    enum: ['bar', 'line', 'pie', 'scatter', 'bar3d', 'line3d', 'scatter3d']
-  },
-  xAxis: {
-    label: {
-      type: String,
-      required: true
-    },
-    data: [mongoose.Schema.Types.Mixed]
-  },
-  yAxis: {
-    label: {
-      type: String,
-      required: true
-    },
-    data: [mongoose.Schema.Types.Mixed]
-  },
-  configuration: {
-    colors: [String],
-    theme: {
-      type: String,
-      default: 'default'
-    },
-    options: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
-    }
-  },
-  downloadCount: {
-    type: Number,
-    default: 0
-  },
-  isPublic: {
-    type: Boolean,
-    default: false
-  },
-  tags: [String],
-  aiInsights: {
-    summary: String,
-    trends: [String],
-    recommendations: [String],
-    confidence: {
-      type: Number,
-      min: 0,
-      max: 1
-    }
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 });
 
 // Index for faster queries
-chartSchema.index({ user: 1, createdAt: -1 });
-chartSchema.index({ upload: 1 });
-chartSchema.index({ type: 1 });
+ChartSchema.index({ user: 1, createdAt: -1 });
+ChartSchema.index({ upload: 1 });
+ChartSchema.index({ type: 1 });
 
-module.exports = mongoose.model('Chart', chartSchema); 
+// Middleware to update user's chart count
+ChartSchema.post('save', async function() {
+  try {
+    const User = mongoose.model('User');
+    await User.findByIdAndUpdate(this.user, { $inc: { chartCount: 1 } });
+  } catch (error) {
+    console.error('Error updating user chart count:', error);
+  }
+});
+
+module.exports = mongoose.model('Chart', ChartSchema); 

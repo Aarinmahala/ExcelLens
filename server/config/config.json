@@ -1,0 +1,82 @@
+{
+  "server": {
+    "port": 5001,
+    "environment": "development",
+    "corsOrigin": "http://localhost:3001",
+    "jwtSecret": "excel_analytics_secure_jwt_secret_key",
+    "jwtExpiresIn": "7d"
+  },
+  "database": {
+    "uri": "mongodb://localhost:27017/excel_analytics",
+    "options": {
+      "serverSelectionTimeoutMS": 5000
+    }
+  },
+  "api": {
+    "prefix": "/api",
+    "endpoints": {
+      "auth": {
+        "base": "/auth",
+        "login": "/login",
+        "register": "/register",
+        "me": "/me",
+        "logout": "/logout",
+        "resetPassword": "/reset-password"
+      },
+      "users": {
+        "base": "/users",
+        "getAll": "/",
+        "getById": "/:id",
+        "update": "/:id",
+        "delete": "/:id"
+      },
+      "upload": {
+        "base": "/upload",
+        "uploadFile": "/",
+        "getAll": "/history",
+        "getById": "/:id",
+        "delete": "/:id"
+      },
+      "charts": {
+        "base": "/charts",
+        "create": "/",
+        "getAll": "/",
+        "getById": "/:id",
+        "update": "/:id",
+        "delete": "/:id",
+        "summary": "/types/summary",
+        "download": "/:id/download"
+      },
+      "health": {
+        "base": "/health",
+        "check": "/"
+      }
+    }
+  },
+  "uploads": {
+    "path": "./uploads",
+    "maxSize": 10485760,
+    "allowedTypes": [".xlsx", ".xls"]
+  },
+  "security": {
+    "rateLimiting": {
+      "windowMs": 900000,
+      "max": 100
+    },
+    "helmet": {
+      "contentSecurityPolicy": {
+        "directives": {
+          "defaultSrc": ["'self'"],
+          "scriptSrc": ["'self'"],
+          "styleSrc": ["'self'", "https:", "'unsafe-inline'"],
+          "imgSrc": ["'self'", "data:"],
+          "connectSrc": ["'self'"],
+          "fontSrc": ["'self'", "https:", "data:"],
+          "objectSrc": ["'none'"],
+          "mediaSrc": ["'self'"],
+          "frameSrc": ["'none'"]
+        }
+      }
+    }
+  }
+} 

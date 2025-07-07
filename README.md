@@ -49,10 +49,15 @@ Please refer to the [SETUP_INSTRUCTIONS.md](./SETUP_INSTRUCTIONS.md) file for de
 
 ## Quick Start
 
-For the easiest setup, simply run one of these scripts:
+1. Clone the repository
+```bash
+git clone https://github.com/Aarinmahala/ExcelLens.git
+cd ExcelLens
+```
 
-- **restart-app.bat** - Double-click this file to restart both server and client
-- **restart-app.ps1** - Right-click and "Run with PowerShell" to restart both server and client
+2. Start the application using one of these scripts:
+   - **restart-app.bat** - Double-click this file to restart both server and client
+   - **restart-app.ps1** - Right-click and "Run with PowerShell" to restart both server and client
 
 ## Login Credentials (Mock Mode)
 
@@ -63,3 +68,35 @@ For the easiest setup, simply run one of these scripts:
 - **Admin Account:**
   - Email: admin@example.com
   - Password: password123 
+
+## Usage
+
+1. Register a new account or login
+2. Upload an Excel file from the Upload page
+3. View the parsed data and create visualizations
+4. Save and share your charts
+5. Manage your account settings
+
+## Project Structure
+
+```
+excellens/
+├── client/                # React frontend
+│   ├── public/            # Static files
+│   └── src/               # Source files
+│       ├── components/    # Reusable components
+│       ├── pages/         # Page components
+│       ├── services/      # API services
+│       ├── store/         # Redux store
+│       └── hooks/         # Custom hooks
+├── server/                # Node.js backend
+│   ├── controllers/       # Route controllers
+│   ├── middleware/        # Express middleware
+│   ├── models/            # Mongoose models
+│   └── routes/            # API routes
+└── package.json           # Project dependencies
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

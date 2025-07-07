@@ -1,0 +1,23 @@
+{
+  "name": "excel-analytics-platform",
+  "version": "1.0.0",
+  "description": "A full-stack MERN application for Excel file analytics with interactive charts",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run install-all && npm run build"
+  },
+  "keywords": ["mern", "excel", "analytics", "charts", "visualization"],
+  "author": "Aarin Mahala",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 

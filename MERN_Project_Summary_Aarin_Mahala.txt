@@ -1,0 +1,104 @@
+
+📁 Unified Mentor Internship Project Summary — Excel Analytics Platform (MERN Stack)
+👨‍💻 Intern Name: Aarin Mahala
+🏢 Organization: Unified Mentor (Project by Zidio.in)
+📆 Duration: 1 Month
+📌 Project Type: Full-Stack MERN Application
+🌐 Website: www.zidio.in
+
+---
+
+🔧 Project 1: Excel Analytics Platform
+
+A full-stack web application that allows users to upload Excel files (.xls or .xlsx), visualize the data with interactive 2D/3D charts, and download charts in PNG/PDF formats. The app includes user and admin roles with secure JWT authentication and optional AI-powered insights.
+
+---
+
+🔍 Core Features:
+
+1. User & Admin Authentication (JWT)
+   - Secure login system with JSON Web Tokens.
+   - Role-based access: Admins can access additional dashboards.
+
+2. Excel Upload & Parsing
+   - File uploads using Multer.
+   - Excel data parsed to JSON using SheetJS (xlsx).
+
+3. Dynamic Data Mapping
+   - Users choose X & Y axes from Excel headers.
+   - Interactive dropdowns for flexible chart creation.
+
+4. Chart Generation
+   - 2D Charts: Bar, Line, Pie, Scatter using Chart.js.
+   - 3D Charts: Using Three.js for immersive data views.
+
+5. Downloadable Charts
+   - Export charts as PNG (via Chart.js) or PDF (via html2canvas/jsPDF).
+
+6. Upload History Dashboard
+   - Track previous uploads, visualizations, and actions.
+   - Admins can monitor user activities and stats.
+
+7. Optional AI Integration
+   - Planned integration with OpenAI API to generate smart data summaries.
+
+---
+
+⚙️ Tech Stack:
+
+Frontend:
+- React.js
+- Redux Toolkit
+- Tailwind CSS
+- Chart.js
+- Three.js
+
+Backend:
+- Node.js
+- Express.js
+- MongoDB
+- Multer (File upload)
+- SheetJS (xlsx)
+
+Optional Tools:
+- OpenAI API
+- Cloudinary (for file storage if needed)
+- Postman (API testing)
+- Git & GitHub (Version Control)
+
+---
+
+📈 Development Timeline (5 Weeks Model)
+
+| Week | Focus Area |
+|------|------------|
+| 1 | Setup MERN stack, create login/auth UI, setup roles |
+| 2 | Configure Multer, build upload endpoint, SheetJS integration |
+| 3 | Build dynamic chart rendering using Chart.js & Three.js |
+| 4 | Implement history saving, export functionality, and AI API (optional) |
+| 5 | Create admin dashboard, test, deploy (Render + Netlify) |
+
+---
+
+🧠 AI Prompts (used for AI Integration, Optional Feature)
+
+These were prompts planned for OpenAI integration:
+
+Prompt 1:
+"Analyze the uploaded Excel data and provide a summary of key trends and outliers."
+
+Prompt 2:
+"Generate a brief report describing the correlation between selected X and Y axes."
+
+Prompt 3:
+"List insights derived from the uploaded dataset in a bullet format."
+
+---
+
+📚 References & Learning Resources:
+
+- https://sheetjs.com/
+- https://www.chartjs.org/
+- https://threejs.org/
+- JavaScript Mastery, Codevolution, Fireship (YouTube)
+- https://chart-studio.plotly.com/

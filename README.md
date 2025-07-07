@@ -50,7 +50,7 @@ A full-stack MERN application for Excel file analytics and visualization.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/excellens.git
+git clone [https://github.com/Aarinmahala/ExcelLens]
 cd excellens
 ```
 

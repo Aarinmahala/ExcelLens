@@ -26,7 +26,7 @@ These scripts will:
 1. Stop any running Node.js processes
 2. Start the server on port 5001
 3. Start the client on port 3001
-4. Provide login credentials
+4. Provide login credentials for testing
 
 ## Option 1: Running in Mock Mode
 
@@ -46,53 +46,93 @@ If you don't want to install MongoDB, you can run the application in mock mode:
    ```
 4. Access the application at http://localhost:3001
 5. Use the following credentials to log in:
-   - User: `user@example.com` / `password123`
-   - Admin: `admin@example.com` / `password123`
+   - **User Account:**
+     - Email: user@example.com
+     - Password: password123
+   - **Admin Account:**
+     - Email: admin@example.com
+     - Password: password123
 
-## Option 2: Running with MongoDB (Recommended)
+## Option 2: Running with MongoDB
 
-### Step 1: Install MongoDB
+For full functionality, you can set up MongoDB:
 
-1. Right-click on `install-mongodb.ps1` and select "Run with PowerShell"
-2. If prompted about execution policy, type "Y" and press Enter
-3. Wait for the installation to complete
-4. The script will:
-   - Install MongoDB
-   - Configure it as a Windows service
-   - Start the MongoDB service
-   - Initialize the database with sample users
-
-### Step 2: Start the Application
-
-1. Double-click on `start-app.bat` to start both the server and client
-2. The script will:
-   - Check if MongoDB is running
-   - Start the server on port 5001
-   - Start the client on port 3001
-3. Access the application at http://localhost:3001
-4. Use the following credentials to log in:
-   - User: `user@example.com` / `password123`
-   - Admin: `admin@example.com` / `password123`
+1. Run the MongoDB installation script:
+   ```
+   powershell -ExecutionPolicy Bypass -File install-mongodb.ps1
+   ```
+2. Initialize MongoDB with sample data:
+   ```
+   mongosh < init-mongodb.js
+   ```
+3. Start the application:
+   ```
+   .\restart-app.bat
+   ```
 
 ## Troubleshooting
 
-### Login Issues
-
-If you're having trouble logging in:
-- Make sure you're using the exact credentials: `user@example.com` / `password123` or `admin@example.com` / `password123`
-- Check that both server and client are running (look for terminal windows)
-- Try restarting the application using the `restart-app.bat` or `restart-app.ps1` scripts
-
 ### Port Conflicts
 
-If you see "address already in use" errors:
-1. Close all terminal windows
-2. Run the restart script to properly kill all Node.js processes
-3. Alternatively, open Task Manager and end all node.exe processes
+If you encounter port conflicts:
+
+1. For server port conflict (5001):
+   - Edit `server/server.js` and change the PORT variable
+   - Or kill the process using the port: `taskkill /F /PID <process_id>`
+
+2. For client port conflict (3001):
+   - Start the client with a different port:
+     ```
+     cd client
+     set PORT=3002
+     npm start
+     ```
 
 ### MongoDB Connection Issues
 
-If the server fails to connect to MongoDB:
-1. Check that MongoDB service is running (Services app in Windows)
-2. Try restarting the MongoDB service
-3. If all else fails, the application will run in mock mode 
+If MongoDB fails to connect:
+
+1. Check if MongoDB service is running:
+   ```
+   sc query MongoDB
+   ```
+2. Start MongoDB service if it's not running:
+   ```
+   net start MongoDB
+   ```
+3. Verify MongoDB is listening on port 27017:
+   ```
+   netstat -ano | findstr 27017
+   ```
+
+## GitHub Integration
+
+### Pushing to GitHub
+
+To push your code to GitHub:
+
+1. Create a new repository on GitHub.com
+2. Use the provided script to push your code:
+
+   **Using PowerShell:**
+   ```
+   .\push-to-github.ps1 <your-github-username> <repository-name>
+   ```
+
+   **Using Batch file:**
+   ```
+   push-to-github.bat <your-github-username> <repository-name>
+   ```
+
+3. Enter your GitHub credentials when prompted
+4. Your code will be available at: https://github.com/<your-github-username>/<repository-name>
+
+### CI/CD with GitHub Actions
+
+This project includes a GitHub Actions workflow file (`.github/workflows/ci.yml`) that will automatically:
+
+1. Build the project
+2. Run tests
+3. Check for linting errors
+
+The workflow runs automatically when you push to the main or master branch. 

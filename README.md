@@ -1,142 +1,65 @@
 # Excel Analytics Platform
 
-A full-stack MERN application that allows users to upload Excel files, visualize data with interactive charts, and download charts in various formats.
+A full-stack web application that allows users to upload Excel files (.xls or .xlsx), visualize the data with interactive 2D/3D charts, and download charts in PNG/PDF formats. The app includes user and admin roles with secure JWT authentication.
 
 ## Features
 
-- **User Authentication**: Secure login system with JWT
-- **Excel File Upload**: Upload .xls or .xlsx files
-- **Data Visualization**: Create interactive 2D/3D charts
-- **Chart Export**: Download charts as PNG or PDF
-- **User Dashboard**: Track uploads, visualizations, and activities
-- **Responsive Design**: Works on desktop and mobile devices
+- **User & Admin Authentication (JWT)**
+  - Secure login system with JSON Web Tokens
+  - Role-based access: Admins can access additional dashboards
 
-## Getting Started
+- **Excel Upload & Parsing**
+  - File uploads using Multer
+  - Excel data parsed to JSON using SheetJS (xlsx)
 
-### Prerequisites
+- **Dynamic Data Mapping**
+  - Users choose X & Y axes from Excel headers
+  - Interactive dropdowns for flexible chart creation
 
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB (optional, the app can run in mock mode without it)
+- **Chart Generation**
+  - 2D Charts: Bar, Line, Pie, Scatter using Chart.js
+  - 3D Charts: Using Three.js for immersive data views
 
-### Installation
+- **Downloadable Charts**
+  - Export charts as PNG (via Chart.js) or PDF (via html2canvas/jsPDF)
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd excel-analytics-platform
-   ```
-
-2. Install dependencies:
-   ```
-   npm run install-all
-   ```
-
-3. MongoDB Setup:
-   - Install MongoDB from [MongoDB Download Center](https://www.mongodb.com/try/download/community)
-   - Start MongoDB service on your local machine
-   - The default connection string is `mongodb://localhost:27017/excel_analytics`
-   - For detailed setup instructions, see [MongoDB Setup Guide](MONGODB_SETUP_GUIDE.md)
-   - To check MongoDB connection:
-     ```
-     cd server
-     node scripts/check-mongodb.js
-     ```
-   - To initialize the database with sample data:
-     ```
-     cd server
-     node scripts/init-db.js
-     ```
-
-4. Start the development server:
-   ```
-   npm run dev
-   ```
-
-5. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
-
-## Login Credentials
-
-When running with initialized MongoDB database:
-
-- **Regular User**:
-  - Email: user@example.com
-  - Password: user123
-
-- **Admin User**:
-  - Email: admin@example.com
-  - Password: admin123
-
-## Usage Guide
-
-1. **Login**: Use the provided credentials to log in
-2. **Upload Excel**: Click the "Upload Excel" button on the dashboard
-3. **Create Charts**: Select an uploaded file and choose chart type and data columns
-4. **View & Download**: View your charts and download them as PNG or PDF
-5. **Track History**: View your upload and chart creation history
+- **Upload History Dashboard**
+  - Track previous uploads, visualizations, and actions
+  - Admins can monitor user activities and stats
 
 ## Tech Stack
 
-- **Frontend**: React, Redux Toolkit, Tailwind CSS, Chart.js, Three.js
-- **Backend**: Node.js, Express.js, MongoDB
-- **Authentication**: JWT
-- **File Handling**: Multer, SheetJS (xlsx)
+### Frontend
+- React.js
+- Redux Toolkit
+- Tailwind CSS
+- Chart.js
+- Three.js
 
-## Project Structure
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Multer (File upload)
+- SheetJS (xlsx)
 
-- `/client` - React frontend application
-- `/server` - Express backend API
-- `/server/uploads` - Uploaded Excel files storage
-- `/server/models` - MongoDB data models
-- `/server/scripts` - Database utility scripts
+## Getting Started
 
-## Development Notes
+Please refer to the [SETUP_INSTRUCTIONS.md](./SETUP_INSTRUCTIONS.md) file for detailed setup instructions.
 
-- The application can run in two modes:
-  - **MongoDB Mode**: Full functionality with database persistence
-  - **Mock Mode**: Fallback mode when MongoDB is not available
+## Quick Start
 
-### Application Modes
+For the easiest setup, simply run one of these scripts:
 
-#### MongoDB Mode
-- Complete functionality with data persistence
-- User authentication and authorization
-- File upload history and chart storage
-- User activity tracking
+- **restart-app.bat** - Double-click this file to restart both server and client
+- **restart-app.ps1** - Right-click and "Run with PowerShell" to restart both server and client
 
-#### Mock Mode
-- Automatically activated when MongoDB connection fails
-- Uses in-memory data structures
-- Limited persistence (data is lost on server restart)
-- Useful for quick testing and development
+## Login Credentials (Mock Mode)
 
-### API Configuration
+- **User Account:**
+  - Email: user@example.com
+  - Password: password123
 
-All API endpoints are centralized in configuration files:
-- Server: `server/config/config.json`
-- Client: `client/src/config/api.config.ts`
-
-To modify API endpoints, update these files to ensure consistency between client and server.
-
-### Security Features
-
-The application includes several security features:
-- JWT authentication with configurable expiration
-- Rate limiting to prevent abuse
-- Helmet for HTTP header security
-- CORS configuration for controlled access
-- MongoDB connection retry with exponential backoff
-
-## MongoDB Tools
-
-The project includes several MongoDB utility scripts:
-
-- `server/scripts/check-mongodb.js` - Check MongoDB connection status
-- `server/scripts/init-db.js` - Initialize database with sample data
-
-## License
-
-MIT 
+- **Admin Account:**
+  - Email: admin@example.com
+  - Password: password123 

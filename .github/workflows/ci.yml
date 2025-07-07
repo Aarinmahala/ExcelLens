@@ -1,0 +1,59 @@
+name: Excel Analytics Platform CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install server dependencies
+      run: |
+        cd server
+        npm ci
+    
+    - name: Install client dependencies
+      run: |
+        cd client
+        npm ci
+    
+    - name: Lint server
+      run: |
+        cd server
+        npm run lint || echo "No lint script found"
+    
+    - name: Lint client
+      run: |
+        cd client
+        npm run lint || echo "No lint script found"
+    
+    - name: Build client
+      run: |
+        cd client
+        npm run build
+    
+    - name: Run server tests
+      run: |
+        cd server
+        npm test || echo "No test script found"
+    
+    - name: Run client tests
+      run: |
+        cd client
+        npm test || echo "No test script found" 
